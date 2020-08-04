@@ -1,0 +1,4 @@
+name: Limbo
+version: ${project.version}
+main: com.github.kikisito.limbo.LimboPlugin
+api-version: 1.16
