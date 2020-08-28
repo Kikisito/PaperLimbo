@@ -6,7 +6,6 @@ import net.md_5.bungee.api.plugin.Command;
 import net.md_5.bungee.api.plugin.Plugin;
 
 public final class LimboWaterfall extends Plugin {
-
     @Override
     public void onEnable() {
         this.getProxy().getPluginManager().registerCommand(this, new EdorasCommand(this));

@@ -5,7 +5,6 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 
 public class MoveEvent implements Listener {
@@ -16,14 +15,13 @@ public class MoveEvent implements Listener {
     }
 
     @EventHandler
-    public void onPlayerJoin(PlayerMoveEvent e){
-        if(!e.getPlayer().hasPermission("edoras.limbo.bypass")){
-            Player p = e.getPlayer();
-            Location loc = new Location(plugin.getServer().getWorld("limbo"), 0, 0, 0);
-            if(!p.getLocation().equals(loc)){
-                p.teleportAsync(loc);
-            }
-            e.setCancelled(true);
+    public void onPlayerMove(PlayerMoveEvent e){
+        Location loc = new Location(plugin.getServer().getWorld("world"), 0, 64, 0, 0, 0);
+        Player p = e.getPlayer();
+        if(!p.getLocation().equals(loc)){
+            p.teleportAsync(loc);
         }
+        plugin.sendToSurvival(p);
+        e.setCancelled(true);
     }
 }

@@ -7,13 +7,11 @@ import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
-import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 
 public class PlayerJoin implements Listener {
-    private LimboPlugin plugin;
+    private final LimboPlugin plugin;
 
     public PlayerJoin(LimboPlugin plugin){
         this.plugin = plugin;
@@ -21,10 +19,17 @@ public class PlayerJoin implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerLoginEvent e){
-        Location loc = new Location(plugin.getServer().getWorld("limbo"), 0, 0, 0, 45, 0);
-        Player p = e.getPlayer();
-        p.setGameMode(GameMode.SPECTATOR);
-        p.teleportAsync(loc);
-        p.spigot().sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&6Te encuentras en el limbo de Edoras.\n&eHas sido transportado a esta dimensión debido a que se ha perdido la conexión con el servidor survival. Esto suele ocurrir en reinicios.\nPara volver a Edoras, simplemente espera o escribe &a/edoras")));
+        plugin.getServer().getScheduler().runTaskLater(plugin, () -> {
+            Location loc = new Location(plugin.getServer().getWorld("world"), 0, 64, 0, 0, 0);
+            Player p = e.getPlayer();
+            // Hide players
+            plugin.getServer().getOnlinePlayers().forEach(player -> player.hidePlayer(plugin, p));
+            // Set spectator
+            p.setGameMode(GameMode.SPECTATOR);
+            // Teleport to box
+            p.teleportAsync(loc);
+            // Send message
+            p.spigot().sendMessage(TextComponent.fromLegacyText(ChatColor.translateAlternateColorCodes('&', "&6Te encuentras en el limbo de Edoras.\n&eHas sido transportado a esta dimensión debido a que se ha perdido la conexión con el servidor survival. Esto suele ocurrir en reinicios.\nPara volver a Edoras, simplemente espera o escribe &a/edoras")));
+        }, 5);
     }
 }

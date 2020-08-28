@@ -18,17 +18,20 @@ public final class LimboPlugin extends JavaPlugin {
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         task = this.getServer().getScheduler().runTaskTimerAsynchronously(this, () -> {
             for(Player p : this.getServer().getOnlinePlayers()){
-                if(p.hasPermission("edoras.limbo.bypass")) continue;
-                ByteArrayDataOutput out = ByteStreams.newDataOutput();
-                out.writeUTF("Connect");
-                out.writeUTF("survival");
-                p.sendPluginMessage(this, "BungeeCord", out.toByteArray());
+                this.sendToSurvival(p);
             }
-        }, 0, 900);
+        }, 0, 600);
     }
 
     @Override
     public void onDisable() {
         task.cancel();
+    }
+
+    public void sendToSurvival(Player p){
+        ByteArrayDataOutput out = ByteStreams.newDataOutput();
+        out.writeUTF("Connect");
+        out.writeUTF("survival");
+        p.sendPluginMessage(this, "BungeeCord", out.toByteArray());
     }
 }
