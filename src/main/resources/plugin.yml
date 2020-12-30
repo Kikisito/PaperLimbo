@@ -1,0 +1,5 @@
+name: PaperLimbo
+version: @version@
+main: com.github.kikisito.paperlimbo.Main
+api-version: 1.16
+load: STARTUP

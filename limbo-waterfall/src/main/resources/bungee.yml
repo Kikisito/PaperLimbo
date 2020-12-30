@@ -1,3 +1,0 @@
-name: Limbo
-version: ${project.version}
-main: com.github.kikisito.limbo.LimboWaterfall
